@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Coffee Pickles</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script th:inline="javascript">
+        //load the virualization API
+        google.charts.load('current',{'packages':['corechart']});
+
+        //set a callback to run when the API is loaded
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var jsonData = $.ajax({
+                url: "/coffeedates/" + /*[[${user.getUserName()}]]*/ 'User Name',
+                dataType: "json",
+                async: false
+            }).responseText;
+
+            var data = new google.visualization.DataTable();
+            data.addColumn('date','Date');
+            data.addColumn('number','Coffees');
+            var parsed = JSON.parse(jsonData);
+            for (var key in parsed) {
+                val = parsed[key];
+                date = key.split('/');
+                data.addRow([
+                    new Date(date[2], date[1]-1, date[0]),
+                    parseInt(val)
+                ]);
+            }
+            data.sort([{column: 0}]);
+            var chart = new google.visualization.LineChart(document.getElementById('line_chart_div'));
+            chart.draw(data, {width: 800, height: 450, curveType: 'function'});
+        }
+
+    </script>
+    <script th:inline="javascript">
+        //load the virualization API
+        google.charts.load('current',{'packages':['corechart']});
+
+        //set a callback to run when the API is loaded
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var jsonData = $.ajax({
+                url: "/coffeedays/" + /*[[${user.getUserName()}]]*/ 'User Name' ,
+                dataType: "json",
+                async: false
+            }).responseText;
+
+            var data = new google.visualization.DataTable();
+            data.addColumn('string','Day');
+            data.addColumn('number','Coffees');
+            var parsed = JSON.parse(jsonData);
+            for (var key in parsed) {
+                val = parsed[key];
+                data.addRow([
+                    key,
+                    parseInt(val)
+                ]);
+            }
+            var chart = new google.visualization.BarChart(document.getElementById('day_chart_div'));
+            chart.draw(data, {width: 800, height: 450, bar: {groupWidth: "50%"}});
+        }
+
+    </script>
+</head>
+<body>
+    <div layout:fragment="content">
+    <div class="flex-container" >
+        <div id="user">
+            <h1 th:text="|User name: ${user.getUserName()}|"/>
+            <!--/*@thymesVar id="user" type="Customer"*/-->
+            <p th:text="|Current balance: $${user.getBalance()}|"/>
+            <p th:text="|All-time coffees: ${user.getNumCoffees()}|"/>
+            <p>Recent payments: </p>
+            <th:block th:each="pay : ${user.getRecentPayments()}">
+                <p th:text="|* ${pay.getDate()}: $${pay.getAmount()}|"/>
+            </th:block>
+        </div>
+        <div id="controls">
+            <form action="#" th:action="@{/coffee}" method="post">
+                <input type="submit" id="coffee-submit" value="Coffee!">
+            </form>
+            <!--/*@thymesVar id="payment" type="Payment"*/-->
+            <form action="#" th:action="@{/payment}" th:object="${payment}" method="post">
+                <input type="text" th:field="*{amount}" id="payment-text">
+                <input type="submit" id="payment-submit" value="Pay">
+            </form>
+        </div>
+    </div>
+    <div id="line_chart_div"></div><div id="day_chart_div"></div>
+    </div>
+    <!-- build some charts! -->
+</body>
+</html>

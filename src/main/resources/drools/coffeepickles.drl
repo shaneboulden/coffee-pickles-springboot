@@ -1,0 +1,27 @@
+package drools
+
+import com.rock.coffeepickles.domain.Customer
+import com.rock.coffeepickles.domain.Coffee
+import java.math.BigDecimal
+
+rule "Normally coffee costs $1.50"
+
+    when
+        $user: Customer()
+        eval((($user.getNumCoffees()+1) % 5 )!=0)
+    then
+        insertLogical(new Coffee(new BigDecimal("1.50"),$user));
+end
+
+rule "Every fifth coffee is free"
+
+    when
+        $user: Customer ()
+        eval((($user.getNumCoffees()+1) % 5 )==0)
+    then
+        insertLogical(new Coffee(new BigDecimal("0.00"),$user));
+end
+
+query "getCoffeeObjects"
+    $result: Coffee()
+end
