@@ -7,9 +7,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
-/**
- * Created by sboulden on 6/25/17.
- */
+
 @Entity
 public class Coffee {
     @Id

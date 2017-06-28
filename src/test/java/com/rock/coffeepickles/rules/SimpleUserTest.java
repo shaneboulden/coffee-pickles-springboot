@@ -13,9 +13,7 @@ import org.kie.api.KieServices;
 
 import java.math.BigDecimal;
 
-/**
- * Created by sboulden on 6/26/17.
- */
+
 public class SimpleUserTest {
 
     @Test

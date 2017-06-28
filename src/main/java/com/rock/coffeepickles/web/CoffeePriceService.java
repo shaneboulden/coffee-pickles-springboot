@@ -11,9 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
-/**
- * Created by sboulden on 6/26/17.
- */
+
 @Service
 public class CoffeePriceService {
     private final KieContainer kieContainer;
