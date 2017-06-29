@@ -30,7 +30,7 @@ public class CoffeePriceService {
         Coffee coffee = new Coffee(new BigDecimal("10000.00"), null);
         for ( QueryResultsRow row : results ) {
             Coffee queryCoffee = ( Coffee ) row.get("$result");
-            if (queryCoffee.getUser().getUserName() == user.getUserName()) {
+            if (queryCoffee.getUser().getUserName().equals(user.getUserName())) {
                 coffee = queryCoffee;
             }
         }
