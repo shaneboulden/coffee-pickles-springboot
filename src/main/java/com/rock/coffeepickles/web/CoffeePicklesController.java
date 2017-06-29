@@ -3,6 +3,7 @@ package com.rock.coffeepickles.web;
 import com.rock.coffeepickles.domain.Coffee;
 import com.rock.coffeepickles.domain.Customer;
 import com.rock.coffeepickles.domain.Payment;
+import com.rock.coffeepickles.service.CoffeePriceService;
 import com.rock.coffeepickles.service.CoffeeService;
 import com.rock.coffeepickles.service.CustomerService;
 import com.rock.coffeepickles.service.PaymentService;

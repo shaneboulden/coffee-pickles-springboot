@@ -1,7 +1,7 @@
 package com.rock.coffeepickles.rules;
 
 import com.rock.coffeepickles.domain.Customer;
-import com.rock.coffeepickles.web.CoffeePriceService;
+import com.rock.coffeepickles.service.CoffeePriceService;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import static org.junit.Assert.*;

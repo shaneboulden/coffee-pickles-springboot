@@ -1,4 +1,4 @@
-package com.rock.coffeepickles.web;
+package com.rock.coffeepickles.service;
 
 import com.rock.coffeepickles.domain.Coffee;
 import com.rock.coffeepickles.domain.Customer;
