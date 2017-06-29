@@ -38,7 +38,7 @@ public class SimpleUserTest {
         CoffeePriceService coffeePriceService = new CoffeePriceService(
                 KieServices.Factory.get().getKieClasspathContainer()
         );
-        Customer user = new Customer("sh687");
+        Customer user = new Customer("user1");
 
         Coffee coffee = coffeePriceService.getCoffeePrice(user);
 
