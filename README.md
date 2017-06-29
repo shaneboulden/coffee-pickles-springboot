@@ -101,7 +101,7 @@ Create a user certificate:
 # openssl x509 -req -in user1.csr -CA rootCA.pem -CAkey rootCA.key -CACreateserial -out user1.crt -days 500
 # openssl pkcs12 -export -in user1.crt -inkey user1.key -out user1.pfx -name USER1 -CAfile rootCA.pem -caname rootCA
 ```
-Import the certificate into your browser.
+Import the `user1.pfx` certificate into your browser.
 
 
 ### Create database tables
