@@ -53,7 +53,6 @@ spring.datasource.url=jdbc:postgresql://127.0.0.1:5432/coffeepicklesdb
 spring.datasource.username=coffeeuser
 spring.datasource.driver-class-name=org.postgresql.Driver
 spring.datasource.password=password
-
 ```
 
 ### Creating Certificates
@@ -94,7 +93,6 @@ server.ssl.trust-store-password=password
 server.ssl.client-auth=need
 server.port=8443
 server.ssl.enabled=true
-
 ```
 Create a user certificate:
 ```
@@ -112,7 +110,7 @@ Spring Boot will create the correct tables in the database when the application 
 
 ```
 # su - postgres -c 'scl enable rh-postgresql95 -- psql -d coffeepicklesdb'
-coffeepicklesdb=#
+coffeepicklesdb=# \dt
             List of relations
  Schema |   Name   | Type  |   Owner
 --------+----------+-------+------------
@@ -120,7 +118,6 @@ coffeepicklesdb=#
  public | customer | table | coffeeuser
  public | payment  | table | coffeeuser
 (3 rows)
-
 ```
 
 ### Create a database user matching the certificate name
@@ -154,7 +151,7 @@ rule "Normally coffee costs $2.00"
         insertLogical(new Coffee(new BigDecimal("2.00"),$user));
 end
 
-rule "Every fifth coffee is free"
+rule "Every tenth coffee is free"
 
     when
         $user: Customer ()
