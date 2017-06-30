@@ -16,27 +16,28 @@
         google.charts.setOnLoadCallback(drawChart);
 
         function drawChart() {
-            var jsonData = $.ajax({
+            $.ajax({
                 url: "/coffeedates/" + /*[[${user.getUserName()}]]*/ 'User Name',
-                dataType: "json",
-                async: false
-            }).responseText;
-
-            var data = new google.visualization.DataTable();
-            data.addColumn('date','Date');
-            data.addColumn('number','Coffees');
-            var parsed = JSON.parse(jsonData);
-            for (var key in parsed) {
-                val = parsed[key];
-                date = key.split('/');
-                data.addRow([
-                    new Date(date[2], date[1]-1, date[0]),
-                    parseInt(val)
-                ]);
-            }
-            data.sort([{column: 0}]);
-            var chart = new google.visualization.LineChart(document.getElementById('line_chart_div'));
-            chart.draw(data, {width: 800, height: 450, curveType: 'function'});
+                dataType: "json"
+            }).done(function(jsonData)  {
+                var data = new google.visualization.DataTable();
+                data.addColumn('date', 'Date');
+                data.addColumn('number', 'Coffees');
+                for (var key in jsonData) {
+                    val = jsonData[key];
+                    date = key.split('/');
+                    data.addRow([
+                        new Date(date[2], date[1] - 1, date[0]),
+                        parseInt(val)
+                    ]);
+                }
+                data.sort([{column: 0}]);
+                var chart = new google.visualization.LineChart(document.getElementById('line_chart_div'));
+                chart.draw(data, {width: 800, height: 450, curveType: 'function'});
+            }).fail(function() {
+                google.visualization.errors.addError(document.getElementById('line_chart_div'),
+                    "Failed to add data to the chart");
+            });
         }
 
     </script>
@@ -48,25 +49,27 @@
         google.charts.setOnLoadCallback(drawChart);
 
         function drawChart() {
-            var jsonData = $.ajax({
+            $.ajax({
                 url: "/coffeedays/" + /*[[${user.getUserName()}]]*/ 'User Name' ,
-                dataType: "json",
-                async: false
-            }).responseText;
+                dataType: "json"
+            }).done(function(jsonData) {
 
-            var data = new google.visualization.DataTable();
-            data.addColumn('string','Day');
-            data.addColumn('number','Coffees');
-            var parsed = JSON.parse(jsonData);
-            for (var key in parsed) {
-                val = parsed[key];
-                data.addRow([
-                    key,
-                    parseInt(val)
-                ]);
-            }
-            var chart = new google.visualization.BarChart(document.getElementById('day_chart_div'));
-            chart.draw(data, {width: 800, height: 450, bar: {groupWidth: "50%"}});
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', 'Day');
+                data.addColumn('number', 'Coffees');
+                for (var key in jsonData) {
+                    val = jsonData[key];
+                    data.addRow([
+                        key,
+                        parseInt(val)
+                    ]);
+                }
+                var chart = new google.visualization.BarChart(document.getElementById('day_chart_div'));
+                chart.draw(data, {width: 800, height: 450, bar: {groupWidth: "50%"}});
+            }).fail(function() {
+                google.visualization.errors.addError(document.getElementById('day_chart_div'),
+                    "Failed to add data to the chart");
+            });
         }
 
     </script>
