@@ -22,6 +22,7 @@ Coffee Pickles uses a Postgres database for persistence. Software Collections (S
 
 ```
 # yum install rh-postgresql95
+# /opt/rh/rh-postgresql95/root/usr/bin/postgresql-setup --initdb
 # systemctl start rh-postgresql95-postgresql
 # su - postgres -c 'scl enable rh-postgresql95 -- createdb coffeepicklesdb'
 # su - postgres -c 'scl enable rh-postgresql95 -- createuser --interactive coffeeuser'
@@ -98,11 +99,18 @@ Create a user certificate:
 ```
 # openssl genrsa -out user1.key 2048
 # openssl req -new -key user1.key -out user1.csr
-# openssl x509 -req -in user1.csr -CA rootCA.pem -CAkey rootCA.key -CACreateserial -out user1.crt -days 500
+# openssl x509 -req -in user1.csr -CA rootCA.pem -CAkey rootCA.key -CAcreateserial -out user1.crt -days 500
 # openssl pkcs12 -export -in user1.crt -inkey user1.key -out user1.pfx -name USER1 -CAfile rootCA.pem -caname rootCA
 ```
 Import the `user1.pfx` certificate into your browser.
 
+### Starting the application
+
+Coffee Pickles can be compiled and launched via Maven.
+
+```
+# mvn sprint-boot:run
+```
 
 ### Create database tables
 
