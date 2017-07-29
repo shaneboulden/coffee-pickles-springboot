@@ -12,7 +12,7 @@ Coffee Pickles for Spring Boot allows users to track their coffee consumption ov
 
 ### Screenshots
 
-![coffeepickles1](http://i.imgur.com/ZFpAJly.png)
+![coffeepickles1](http://i.imgur.com/6ZhNl5s.png)
 
 ## Getting Started
 
