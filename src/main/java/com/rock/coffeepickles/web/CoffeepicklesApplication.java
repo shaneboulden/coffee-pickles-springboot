@@ -2,8 +2,6 @@ package com.rock.coffeepickles.web;
 
 import com.rock.coffeepickles.domain.Customer;
 import com.rock.coffeepickles.repository.CustomerRepository;
-import org.kie.api.KieServices;
-import org.kie.api.runtime.KieContainer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -57,9 +55,4 @@ public class CoffeepicklesApplication extends WebSecurityConfigurerAdapter{
             }
         };
     }
-
-	@Bean
-	public KieContainer kieContainer() {
-		return KieServices.Factory.get().getKieClasspathContainer();
-	}
 }

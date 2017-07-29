@@ -15,7 +15,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.5.4.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
 	</parent>
 
 	<properties>
@@ -56,6 +56,36 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jbpm</groupId>
+			<artifactId>jbpm-bpmn2</artifactId>
+			<version>7.0.0.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jbpm</groupId>
+			<artifactId>jbpm-runtime-manager</artifactId>
+			<version>7.0.0.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jbpm</groupId>
+			<artifactId>jbpm-kie-services</artifactId>
+			<version>7.0.0.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.kie</groupId>
+			<artifactId>kie-ci</artifactId>
+			<version>7.0.0.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.kie</groupId>
+			<artifactId>kie-api</artifactId>
+			<version>7.0.0.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-aether-provider</artifactId>
+			<version>3.2.5</version>
 		</dependency>
 	</dependencies>
 

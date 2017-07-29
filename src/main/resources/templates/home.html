@@ -6,6 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Coffee Pickles</title>
+    <link type="text/css" href="/dashboard.css" rel="stylesheet">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script th:inline="javascript">
@@ -76,31 +77,95 @@
 </head>
 <body>
     <div layout:fragment="content">
-    <div class="flex-container" >
-        <div id="user">
-            <h1 th:text="|User name: ${user.getUserName()}|"/>
-            <!--/*@thymesVar id="user" type="Customer"*/-->
-            <p th:text="|Current balance: $${user.getBalance()}|"/>
-            <p th:text="|All-time coffees: ${user.getNumCoffees()}|"/>
-            <p>Recent payments: </p>
-            <th:block th:each="pay : ${user.getRecentPayments()}">
-                <p th:text="|* ${pay.getDate()}: $${pay.getAmount()}|"/>
-            </th:block>
+
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Coffee Pickles</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#">Dashboard</a></li>
+                        <li><a href="#">Help</a></li>
+                        <li><a th:text="| Logged in as ${user.getUserName()}|"></a></li>
+                    </ul>
+                    <form class="navbar-form navbar-right" action="#" th:action="@{/coffee}" method="post">
+                        <input type="submit" value="Coffee!" class="btn btn-danger">
+                    </form>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a th:text="|Current balance: $${user.getBalance()}|"></a> </li>
+                        <li><a th:text="|All-time coffees: ${user.getNumCoffees()}|"></a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-offset-1 col-md-10">
+                    <h1 class="page-header">Dashboard</h1>
+                    <div class="flash info" th:if="${message} != null" th:text="${message}" />
+
+                    <div class="row placeholders">
+                        <div class="col-md-6 placeholder" id="line_chart_div">
+                            <h4>Label</h4>
+                            <span class="text-muted">Something else</span>
+                        </div>
+                        <div class="col-md-6 placeholder" id="day_chart_div">
+                            <h4>Label</h4>
+                            <span class="text-muted">Something else</span>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive col-md-9">
+                        <h2 class="sub-header">Recent payments</h2>
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Amount</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <th:block th:each="pay : ${user.getRecentPayments()}">
+                            <tr>
+                                <td th:text="| ${pay.getDate()}|"/>
+                                <td th:text="| $${pay.getAmount()}|"/>
+                            </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-3">
+                        <h2 class="sub-header">Create payment</h2>
+                        <form class="form-horizontal" action="#" th:action="@{/payment}" th:object="${payment}" method="post">
+                            <div class="form-group">
+                                <label for="amount" class="col-sm-2 control-label">Amount:</label>
+                                <div class="col-sm-10">
+                                    <input type="text" th:field="*{amount}" class="form-control" id="amount">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <input type="submit" value="Pay" class="form-control btn btn-default">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div id="controls">
-            <form action="#" th:action="@{/coffee}" method="post">
-                <input type="submit" id="coffee-submit" value="Coffee!">
-            </form>
-            <!--/*@thymesVar id="payment" type="Payment"*/-->
-            <form action="#" th:action="@{/payment}" th:object="${payment}" method="post">
-                <input type="text" th:field="*{amount}" id="payment-text">
-                <input type="submit" id="payment-submit" value="Pay">
-            </form>
-        </div>
-    </div>
-    <!-- build some charts! -->
-    <div id="line_chart_div"></div>
-    <div id="day_chart_div"></div>
+
     </div>
 </body>
 </html>
+<!--/*@thymesVar id="user" type="Customer"*/-->
+<!--/*@thymesVar id="payment" type="Payment"*/-->

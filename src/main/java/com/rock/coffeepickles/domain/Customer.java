@@ -7,7 +7,6 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-
 import java.math.BigDecimal;
 import java.util.*;
 

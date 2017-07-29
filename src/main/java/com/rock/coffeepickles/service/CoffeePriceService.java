@@ -2,6 +2,9 @@ package com.rock.coffeepickles.service;
 
 import com.rock.coffeepickles.domain.Coffee;
 import com.rock.coffeepickles.domain.Customer;
+import org.kie.api.KieServices;
+import org.kie.api.builder.KieScanner;
+import org.kie.api.builder.ReleaseId;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.QueryResults;
@@ -14,15 +17,15 @@ import java.math.BigDecimal;
 
 @Service
 public class CoffeePriceService {
-    private final KieContainer kieContainer;
 
     @Autowired
-    public CoffeePriceService(KieContainer kieContainer) {
-        this.kieContainer = kieContainer;
+    public CoffeePriceService() {
     }
 
-    public Coffee getCoffeePrice(Customer user) {
-        KieSession ksession = kieContainer.newKieSession("ksession");
+    public Coffee getCoffeePrice(Customer user, KieContainer container) {
+
+
+        KieSession ksession = container.newKieSession("ksession");
         ksession.insert(user);
         ksession.fireAllRules();
 
