@@ -4,11 +4,17 @@ import com.rock.coffeepickles.domain.Customer;
 import com.rock.coffeepickles.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.actuate.autoconfigure.ExportMetricWriter;
+import org.springframework.boot.actuate.endpoint.MetricsEndpoint;
+import org.springframework.boot.actuate.endpoint.MetricsEndpointMetricReader;
+import org.springframework.boot.actuate.metrics.jmx.JmxMetricWriter;
+import org.springframework.boot.actuate.metrics.writer.MetricWriter;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jmx.export.MBeanExporter;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -54,5 +60,16 @@ public class CoffeepicklesApplication extends WebSecurityConfigurerAdapter{
                 return customer;
             }
         };
+    }
+
+    @Bean
+    public MetricsEndpointMetricReader metricsEndpointMetricReader(MetricsEndpoint metricsEndpoint) {
+        return new MetricsEndpointMetricReader(metricsEndpoint);
+    }
+
+    @Bean
+    @ExportMetricWriter
+    public MetricWriter metricWriter (MBeanExporter exporter) {
+        return new JmxMetricWriter(exporter);
     }
 }
