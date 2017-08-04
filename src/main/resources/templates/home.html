@@ -9,6 +9,13 @@
     <link type="text/css" href="/dashboard.css" rel="stylesheet">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '.flash', function() {
+                $(this).remove();
+            });
+        });
+    </script>
     <script th:inline="javascript">
         //load the virtualization API
         google.charts.load('current',{'packages':['corechart']});
