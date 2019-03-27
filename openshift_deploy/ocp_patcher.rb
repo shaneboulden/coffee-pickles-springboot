@@ -7,11 +7,11 @@ opt_parser = OptionParser.new do |opt|
   opt.banner = "Usage: ruby ocp_patcher.rb -k=KEYSTORE_PASS -t=TRUSTSTORE_PASS DC.YAML"
 
   opt.on "-k=KEYSTORE","--keystore=KEYSTORE","Keystore Pass" do |key|
-    options[:consumer_key] = key
+    options[:keystore_pass] = key
   end
 
   opt.on "-t=TRUSTSTORE","--truststore=TRUSTSTORE","Truststore Pass" do |secret|
-    options[:consumer_secret] = secret
+    options[:truststore_pass] = secret
   end
 end.parse!
 
@@ -68,8 +68,21 @@ secretEnv = [{
               "valueFrom"=>{
                 "secretKeyRef"=>{
                   "name"=>"postgresql",
-                  "key"=>
-]
+                  "key"=>"database-user"
+                }
+              }
+            },
+            {"name"=>"PSQL_PASS",
+              "valueFrom"=>{
+                "secretKeyRef"=>{
+                  "name"=>"postgresql",
+                  "key"=>"database-password"
+                }
+              }
+            },
+            {"name"=>"PSQL_HOST",
+             "value"=>"postgresql"
+            }]
 
 # create the volume mounts
 volumes = [{"name"=>"keystore",
@@ -85,12 +98,12 @@ volumes = [{"name"=>"keystore",
 file["spec"]["template"]["spec"]["volumes"] = volumes
 # create the volume mounts
 volumeMounts = [{"name"=>"keystore",
-                "mountPath"=>"/etc/pki/server.keystore",
-                "readOnly"=>"true"
+                "mountPath"=>"/etc/pki/keystore",
+                "readOnly"=>true
                 },
                 {"name"=>"truststore",
-                "mountPath"=>"/etc/pki/server.truststore",
-                "readOnly"=>"true"
+                "mountPath"=>"/etc/pki/truststore",
+                "readOnly"=>true
                 }]
 file["spec"]["template"]["spec"]["containers"][0]["volumeMounts"] = volumeMounts
 
