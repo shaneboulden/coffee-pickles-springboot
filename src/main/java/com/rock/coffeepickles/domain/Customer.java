@@ -2,16 +2,13 @@ package com.rock.coffeepickles.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.SortNatural;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.*;
 
 @Entity
-public class Customer implements UserDetails{
+public class Customer {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -86,40 +83,5 @@ public class Customer implements UserDetails{
         return String.format(
                 "Customer[id=%d, userName='%s']",
                 id, userName);
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_SSL_USER");
-    }
-
-    @Override
-    public String getPassword() {
-        return "";
-    }
-
-    @Override
-    public String getUsername() {
-        return this.userName;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
     }
 }

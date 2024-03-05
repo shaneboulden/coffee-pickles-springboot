@@ -18,7 +18,7 @@ public class Payment implements Comparable<Payment>{
     private BigDecimal amount;
     private Timestamp date;
 
-    protected Payment() {}
+    public Payment() {}
 
     public Payment(BigDecimal amount, Customer user, Timestamp date) {
         this.amount = amount;

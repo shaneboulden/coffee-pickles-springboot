@@ -8,20 +8,16 @@ import com.rock.coffeepickles.service.CoffeeService;
 import com.rock.coffeepickles.service.CustomerService;
 import com.rock.coffeepickles.service.PaymentService;
 import org.kie.api.KieServices;
-import org.kie.api.builder.KieScanner;
-import org.kie.api.builder.ReleaseId;
 import org.kie.api.runtime.KieContainer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.ui.Model;
-import org.springframework.security.core.Authentication;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
-import java.security.Principal;
 
 @Controller
 public class CoffeePicklesController {
@@ -43,17 +39,21 @@ public class CoffeePicklesController {
     }
 
     @RequestMapping(value="/")
-    @PreAuthorize("hasAuthority('ROLE_SSL_USER')")
-    public String home(Model model, Principal principal, Payment payment) {
-        Customer user = (Customer) ((Authentication) principal).getPrincipal();
+    public String home(Model model) {
+        Customer user = customerService.getUser("user1");
+        if (user == null) {
+            Customer customer_zero = new Customer("user1");
+            customerService.addUser(customer_zero);
+            user = customerService.getUser("user1");
+        }
         model.addAttribute("user",user);
+        model.addAttribute("payment", new Payment());
         return "home";
     }
 
     @RequestMapping(value="/coffee", method= RequestMethod.POST)
-    @PreAuthorize("hasAuthority('ROLE_SSL_USER')")
-    public String Coffee(Principal principal, RedirectAttributes redirAttrs) {
-        Customer user = (Customer) ((Authentication) principal).getPrincipal();
+    public String Coffee( RedirectAttributes redirAttrs) {
+        Customer user = customerService.getUser("user1");
         Coffee coffee = coffeePriceService.getCoffeePrice(user, container);
         java.sql.Timestamp timestamp = new java.sql.Timestamp(System.currentTimeMillis());
         coffee.setTime(timestamp);
@@ -70,9 +70,8 @@ public class CoffeePicklesController {
     }
 
     @RequestMapping(value="/payment", method = RequestMethod.POST)
-    @PreAuthorize("hasAuthority('ROLE_SSL_USER')")
-    public String Payment(Payment payment, Principal principal, RedirectAttributes redirAttrs) {
-        Customer user = (Customer) ((Authentication) principal).getPrincipal();
+    public String Payment(Payment payment, RedirectAttributes redirAttrs) {
+        Customer user = customerService.getUser("user1");
         //The payment object amount is returned from the form; now set the date
         //and the user
         java.sql.Timestamp timestamp = new java.sql.Timestamp(System.currentTimeMillis());
